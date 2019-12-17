@@ -61,7 +61,14 @@ public class TestCase {
 			if (freq == -1) System.out.println("OK");
 			else System.out.println("WRONG");
 
+
 			System.out.println("\nif space is not set...");
+			FrequencerInterface test2 = new s4.B193312.Frequencer();
+			test2.setTarget("H".getBytes());
+			freq = test1.frequency();
+			System.out.println("freq(space is not set) = " + freq);
+			if (freq == 0) System.out.println("OK");
+			else System.out.println("WRONG");
 		} catch (Exception e) {
 			System.out.println("Exception occurred: STOP");
 		}

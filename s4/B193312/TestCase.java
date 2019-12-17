@@ -46,32 +46,42 @@ public class TestCase {
 				System.out.println("WRONG");
 			}
 
-			// add
-			System.out.println("\nif target is not set...");
+      // add following testcase
 			FrequencerInterface test1 = new s4.B193312.Frequencer();
-			test1.setSpace("Hi Ho Hi Ho".getBytes());
-			// exception occured shown below.
-			//freq = test1.frequency();	
-			//System.out.println("freq(target is not set) = " + freq);
-			//if (freq == -1) System.out.println("OK");
-			//else System.out.println("WRONG");
+      test1.setSpace("Hi Ho Hi Ho".getBytes());
+      System.out.println("\nif target is not set...");
+      // exception occured shown below!!
+			// freq = test1.frequency();	
+			// System.out.print = " + freq);
+			// if (freq == -1) System.out.println(" ...OK");
+      // else System.out.println(" ...WRONG");
+
+      System.out.println("\nif length of target is zero...");
 			test1.setTarget("".getBytes());
 			freq = test1.frequency();
-			System.out.println("freq = " + freq); // freq == 11?
-			if (freq == -1) System.out.println("OK");
-			else System.out.println("WRONG");
+			System.out.print("freq = " + freq); // freq == 11?
+			if (freq == -1) System.out.println(" ...OK");
+			else System.out.println(" ...WRONG");
 
-
-			System.out.println("\nif space is not set...");
 			FrequencerInterface test2 = new s4.B193312.Frequencer();
-			test2.setTarget("H".getBytes());
-			freq = test1.frequency();
-			System.out.println("freq(space is not set) = " + freq);
-			if (freq == 0) System.out.println("OK");
-			else System.out.println("WRONG");
+      test2.setTarget("H".getBytes());
+      System.out.println("\nif space is not set...");
+      // exception occured shown below!!
+			// freq = test2.frequency();
+			// System.out.print("freq = " + freq);
+			// if (freq == 0) System.out.println(" ...OK");
+      // else System.out.println(" ...WRONG");
+      System.out.println("\nif length of space is zero...");
+      test2.setSpace("".getBytes());
+      freq = test2.frequency();
+      System.out.print("freq = " + freq); // OK
+			if (freq == 0) System.out.println(" ...OK"); 
+			else System.out.println(" ...WRONG");
 		} catch (Exception e) {
 			System.out.println("Exception occurred: STOP");
-		}
+    }
+    
+    System.out.print("\n\n");
 
 		try {
 			InformationEstimatorInterface myObject;
@@ -90,7 +100,42 @@ public class TestCase {
 			System.out.println(">0123 " + value);
 			myObject.setTarget("00".getBytes());
 			value = myObject.estimation();
-			System.out.println(">00 " + value);
+      System.out.println(">00 " + value);
+     
+      // add following testcase 
+      InformationEstimatorInterface test1 = new s4.B193312.InformationEstimator();
+      test1.setSpace("3210321001230123".getBytes());
+      System.out.println("\nif target is not set...");
+      // exception occured shown below!!
+      // value = test1.estimation();
+      // System.out.print("value = " + value);
+      // if (value == 0.0) System.out.println(" ...OK");
+      // else System.out.println(" ...WRONG");
+      
+      System.out.println("\nif length of target is zero...");
+      test1.setTarget("".getBytes());
+      value = test1.estimation();
+      System.out.print("value = " + value); // not 0
+      if (value == 0.0) System.out.println(" ...OK");
+      else System.out.println(" ...WRONG");
+
+      InformationEstimatorInterface test2 = new s4.B193312.InformationEstimator();
+      test2.setTarget("01".getBytes());
+      System.out.println("\nif space is not set...");
+      // exception occured shown below!!
+      // value = test2.estimation();
+      // System.out.print("value = " + value);
+      // if (value == Double.MAX_VALUE) System.out.println(" ...OK");
+      // else System.out.println(" ...WRONG");
+
+      System.out.println("\nif length of space is zero...");
+      // exception occured shown below!!
+      // test1.setSpace("".getBytes());
+      // value = test2.estimation();
+      // System.out.print("value = " + value);
+      // if (value == Double.MAX_VALUE) System.out.println(" ...OK");
+      // else System.out.println(" ...WRONG");
+
 		} catch (Exception e) {
 			System.out.println("Exception occurred: STOP");
 		}

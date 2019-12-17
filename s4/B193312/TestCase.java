@@ -1,4 +1,5 @@
 package s4.B193312; // Please modify to s4.Bnnnnnn, where nnnnnn is your student ID. 
+
 import java.lang.*;
 import s4.specification.*;
 
@@ -28,47 +29,64 @@ public interface InformationEstimatorInterface{
 }                        
 */
 
-
 public class TestCase {
-    public static void main(String[] args) {
-	try {
-	    FrequencerInterface  myObject;
-	    int freq;
-	    System.out.println("checking s4.B193312.Frequencer");
-	    myObject = new s4.B193312.Frequencer();
-	    myObject.setSpace("Hi Ho Hi Ho".getBytes());
-	    myObject.setTarget("H".getBytes());
-	    freq = myObject.frequency();
-	    System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears "+freq+" times. ");
-	    if(4 == freq) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-	}
-	catch(Exception e) {
-	    System.out.println("Exception occurred: STOP");
-	}
+	public static void main(String[] args) {
+		try {
+			FrequencerInterface myObject;
+			int freq;
+			System.out.println("checking s4.B193312.Frequencer");
+			myObject = new s4.B193312.Frequencer();
+			myObject.setSpace("Hi Ho Hi Ho".getBytes());
+			myObject.setTarget("H".getBytes());
+			freq = myObject.frequency();
+			System.out.print("\"H\" in \"Hi Ho Hi Ho\" appears " + freq + " times. ");
+			if (4 == freq) {
+				System.out.println("OK");
+			} else {
+				System.out.println("WRONG");
+			}
 
-	try {
-	    InformationEstimatorInterface myObject;
-	    double value;
-	    System.out.println("checking s4.B193312.InformationEstimator");
-	    myObject = new s4.B193312.InformationEstimator();
-	    myObject.setSpace("3210321001230123".getBytes());
-	    myObject.setTarget("0".getBytes());
-	    value = myObject.estimation();
-	    System.out.println(">0 "+value);
-	    myObject.setTarget("01".getBytes());
-	    value = myObject.estimation();
-	    System.out.println(">01 "+value);
-	    myObject.setTarget("0123".getBytes());
-	    value = myObject.estimation();
-	    System.out.println(">0123 "+value);
-	    myObject.setTarget("00".getBytes());
-	    value = myObject.estimation();
-	    System.out.println(">00 "+value);
-	}
-	catch(Exception e) {
-	    System.out.println("Exception occurred: STOP");
-	}
+			// add
+			System.out.println("\nif target is not set...");
+			FrequencerInterface test1 = new s4.B193312.Frequencer();
+			test1.setSpace("Hi Ho Hi Ho".getBytes());
+			// exception occured shown below.
+			//freq = test1.frequency();	
+			//System.out.println("freq(target is not set) = " + freq);
+			//if (freq == -1) System.out.println("OK");
+			//else System.out.println("WRONG");
+			test1.setTarget("".getBytes());
+			freq = test1.frequency();
+			System.out.println("freq = " + freq); // freq == 11?
+			if (freq == -1) System.out.println("OK");
+			else System.out.println("WRONG");
 
-    }
-}	    
-	    
+			System.out.println("\nif space is not set...");
+		} catch (Exception e) {
+			System.out.println("Exception occurred: STOP");
+		}
+
+		try {
+			InformationEstimatorInterface myObject;
+			double value;
+			System.out.println("checking s4.B193312.InformationEstimator");
+			myObject = new s4.B193312.InformationEstimator();
+			myObject.setSpace("3210321001230123".getBytes());
+			myObject.setTarget("0".getBytes());
+			value = myObject.estimation();
+			System.out.println(">0 " + value);
+			myObject.setTarget("01".getBytes());
+			value = myObject.estimation();
+			System.out.println(">01 " + value);
+			myObject.setTarget("0123".getBytes());
+			value = myObject.estimation();
+			System.out.println(">0123 " + value);
+			myObject.setTarget("00".getBytes());
+			value = myObject.estimation();
+			System.out.println(">00 " + value);
+		} catch (Exception e) {
+			System.out.println("Exception occurred: STOP");
+		}
+
+	}
+}

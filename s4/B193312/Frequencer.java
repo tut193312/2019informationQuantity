@@ -19,114 +19,150 @@ import s4.specification.*;
 
 
 public class Frequencer implements FrequencerInterface{
-	// Code to start with: This code is not working, but good start point to work.
-	byte [] myTarget;
-	byte [] mySpace;
-	boolean targetReady = false;
-	boolean spaceReady = false;
+  // Code to start with: This code is not working, but good start point to work.
+  byte [] myTarget;
+  byte [] mySpace;
+  boolean targetReady = false;
+  boolean spaceReady = false;
 
-	int []  suffixArray; // Suffix Arrayの実装に使うデータの型をint []とせよ。
-
-
-	// The variable, "suffixArray" is the sorted array of all suffixes of mySpace.
-	// Each suffix is expressed by a integer, which is the starting position in mySpace.
-
-	// The following is the code to print the contents of suffixArray.
-	// This code could be used on debugging.
-
-	private void printSuffixArray() {
-		if(spaceReady) {
-			for(int i=0; i< mySpace.length; i++) {
-				int s = suffixArray[i];
-				for(int j=s;j<mySpace.length;j++) {
-					System.out.write(mySpace[j]);
-				}
-				System.out.write('\n');
-			}
-		}
-	}
-
-	private int suffixCompare(int i, int j) {
-		// suffixCompareはソートのための比較メソッドである。
-		// 次のように定義せよ。
-		// comparing two suffixes by dictionary order.
-		// suffix_i is a string starting with the position i in "byte [] mySpace".
-		// Each i and j denote suffix_i, and suffix_j.
-		// Example of dictionary order
-		// "i"      <  "o"        : compare by code
-		// "Hi"     <  "Ho"       ; if head is same, compare the next element
-		// "Ho"     <  "Ho "      ; if the prefix is identical, longer string is big
-		//
-		//The return value of "int suffixCompare" is as follows.
-		// if suffix_i > suffix_j, it returns 1
-		// if suffix_i < suffix_j, it returns -1
-		// if suffix_i = suffix_j, it returns 0;
-
-		// ここにコードを記述せよ
-		//
-		int index_i = suffixArray[i];
-		int index_j = suffixArray[j];
-		while (mySpace[index_i] == mySpace[index_j]) {
-			index_i++;
-			index_j++;
-			if (mySpace.length <= index_i || mySpace.length <= index_j) {
-				if (suffixArray[i] < suffixArray[j]) {
-					return 1;
-				} else if (suffixArray[i] > suffixArray[j]) {
-					return -1;
-				} else {
-					return 0;
-				}
-			}
-		}
-		if (mySpace[index_i] > mySpace[index_j]) {
-			return 1;
-		} else {
-			return -1;
-		}
-	}
-
-	public void setSpace(byte []space) {
-		// suffixArrayの前処理は、setSpaceで定義せよ。
-		mySpace = space; if(mySpace.length>0) spaceReady = true;
-		// First, create unsorted suffix array.
-		suffixArray = new int[space.length];
-		// put all suffixes in suffixArray.
-		for(int i = 0; i< space.length; i++) {
-			suffixArray[i] = i; // Please note that each suffix is expressed by one integer.
-		}
-
-		//
-		// ここに、int suffixArrayをソートするコードを書け。
-		// 　順番はsuffixCompareで定義されるものとする。
-
-		for (int i = 0; i < suffixArray.length; i++) {
-			for (int j = suffixArray.length - 1; j > i; j--) {
-				if (suffixCompare(i, j) == 1) {
-					int temp = suffixArray[i];
-					suffixArray[i] = suffixArray[j];
-					suffixArray[j] = temp;
-				}
-			}
-		}
-	}
-
-	// Suffix Arrayを用いて、文字列の頻度を求めるコード
-	// ここから、指定する範囲のコードは変更してはならない。
-
-	public void setTarget(byte [] target) {
-		myTarget = target; if(myTarget.length>0) targetReady = true;
-	}
-
-	public int frequency() {
-		if(targetReady == false) return -1;
-		if(spaceReady == false) return 0;
-		return subByteFrequency(0, myTarget.length);
-	}
+  int []  suffixArray; // Suffix Arrayの実装に使うデータの型をint []とせよ。
 
 
+  // The variable, "suffixArray" is the sorted array of all suffixes of mySpace.
+  // Each suffix is expressed by a integer, which is the starting position in mySpace.
 
-	public int subByteFrequency(int start, int end) {
+  // The following is the code to print the contents of suffixArray.
+  // This code could be used on debugging.
+
+  private void printSuffixArray() {
+    if(spaceReady) {
+      for(int i=0; i< mySpace.length; i++) {
+        int s = suffixArray[i];
+        for(int j=s;j<mySpace.length;j++) {
+          System.out.write(mySpace[j]);
+        }
+        System.out.write('\n');
+      }
+    }
+  }
+
+  private int suffixCompare(int i, int j) {
+    // suffixCompareはソートのための比較メソッドである。
+    // 次のように定義せよ。
+    // comparing two suffixes by dictionary order.
+    // suffix_i is a string starting with the position i in "byte [] mySpace".
+    // Each i and j denote suffix_i, and suffix_j.
+    // Example of dictionary order
+    // "i"      <  "o"        : compare by code
+    // "Hi"     <  "Ho"       ; if head is same, compare the next element
+    // "Ho"     <  "Ho "      ; if the prefix is identical, longer string is big
+    //
+    //The return value of "int suffixCompare" is as follows.
+    // if suffix_i > suffix_j, it returns 1
+    // if suffix_i < suffix_j, it returns -1
+    // if suffix_i = suffix_j, it returns 0;
+
+    // ここにコードを記述せよ
+    //
+    int index_i = suffixArray[i];
+    int index_j = suffixArray[j];
+    while (mySpace[index_i] == mySpace[index_j]) {
+      index_i++;
+      index_j++;
+      if (mySpace.length <= index_i || mySpace.length <= index_j) {
+        if (suffixArray[i] < suffixArray[j]) {
+          return 1;
+        } else if (suffixArray[i] > suffixArray[j]) {
+          return -1;
+        } else {
+          return 0;
+        }
+      }
+    }
+    if (mySpace[index_i] > mySpace[index_j]) {
+      return 1;
+    } else {
+      return -1;
+    }
+  }
+
+  public void setSpace(byte []space) {
+    // suffixArrayの前処理は、setSpaceで定義せよ。
+    mySpace = space; if(mySpace.length>0) spaceReady = true;
+    // First, create unsorted suffix array.
+    suffixArray = new int[space.length];
+    // put all suffixes in suffixArray.
+    for(int i = 0; i< space.length; i++) {
+      suffixArray[i] = i; // Please note that each suffix is expressed by one integer.
+    }
+
+    //
+    // ここに、int suffixArrayをソートするコードを書け。
+    // 　順番はsuffixCompareで定義されるものとする。
+
+
+    for (int i = 0; i < suffixArray.length; i++) {
+      for (int j = suffixArray.length - 1; j > i; j--) {
+        if (suffixCompare(i, j) == 1) {
+          int temp = suffixArray[i];
+          suffixArray[i] = suffixArray[j];
+          suffixArray[j] = temp;
+        }
+      }
+    }
+
+    // quick_sort(0, suffixArray.length-1);
+  }
+
+  // quicksort refered to: https://qiita.com/gigegige/items/4817c27314a2393eb02d
+
+  /*
+  protected void quick_sort(int left, int right) {
+    if(left >= right) { return; }
+    int pivot = (left + right) / 2;
+    int l = left, r = right;
+
+    print_data(suffixArray);
+
+    while (l <= r) {
+      System.out.print(l + ", " + r + " | ");
+      while (suffixCompare(l, pivot) == 1) { l++; }
+      while (suffixCompare(r, pivot) == -1) { r--; }
+      if (suffixCompare(l, r) == 1) {
+        int tmp = suffixArray[l];
+        suffixArray[l] = suffixArray[r];
+        suffixArray[r] = tmp;
+        l++; r--;
+      }
+    }
+    quick_sort(left, r);
+    quick_sort(l, right);
+  }
+  */
+
+  // please delete this after debugging
+  protected void print_data(int[] arr) {
+    for(int i = 0; i < arr.length; i++) { System.out.print(arr[i] + " "); }
+    System.out.println();
+  }
+
+
+  // Suffix Arrayを用いて、文字列の頻度を求めるコード
+  // ここから、指定する範囲のコードは変更してはならない。
+
+  public void setTarget(byte [] target) {
+    myTarget = target; if(myTarget.length>0) targetReady = true;
+  }
+
+  public int frequency() {
+    if(targetReady == false) return -1;
+    if(spaceReady == false) return 0;
+    return subByteFrequency(0, myTarget.length);
+  }
+
+
+
+  public int subByteFrequency(int start, int end) {
         /* This method be work as follows, but much more efficient
            int spaceLength = mySpace.length;
            int count = 0;
@@ -138,64 +174,64 @@ public class Frequencer implements FrequencerInterface{
             if(abort == false) { count++; }
            }
         */
-		int first = subByteStartIndex(start, end);
-		int last1 = subByteEndIndex(start, end);
-		return last1 - first;
-	}
-	// 変更してはいけないコードはここまで。
+    int first = subByteStartIndex(start, end);
+    int last1 = subByteEndIndex(start, end);
+    return last1 - first;
+  }
+  // 変更してはいけないコードはここまで。
 
-	private int targetCompare(int i, int j, int k) {
-		// suffixArrayを探索するときに使う比較関数。
-		// 次のように定義せよ
-		// suffix_i is a string in mySpace starting at i-th position.
-		// target_i_k is a string in myTarget start at j-th postion ending k-th position.
-		// comparing suffix_i and target_j_k.
-		// if the beginning of suffix_i matches target_i_k, it return 0.
-		// The behavior is different from suffixCompare on this case.
-		// if suffix_i > target_i_k it return 1;
-		// if suffix_i < target_i_k it return -1;
-		// It should be used to search the appropriate index of some suffix.
-		// Example of search
-		// suffix          target
-		// "o"       >     "i"
-		// "o"       <     "z"
-		// "o"       =     "o"
-		// "o"       <     "oo"
-		// "Ho"      >     "Hi"
-		// "Ho"      <     "Hz"
-		// "Ho"      =     "Ho"
-		// "Ho"      <     "Ho "   : "Ho " is not in the head of suffix "Ho"
-		// "Ho"      =     "H"     : "H" is in the head of suffix "Ho"
-		//
-		// ここに比較のコードを書け
-		//
+  private int targetCompare(int i, int j, int k) {
+    // suffixArrayを探索するときに使う比較関数。
+    // 次のように定義せよ
+    // suffix_i is a string in mySpace starting at i-th position.
+    // target_i_k is a string in myTarget start at j-th postion ending k-th position.
+    // comparing suffix_i and target_j_k.
+    // if the beginning of suffix_i matches target_i_k, it return 0.
+    // The behavior is different from suffixCompare on this case.
+    // if suffix_i > target_i_k it return 1;
+    // if suffix_i < target_i_k it return -1;
+    // It should be used to search the appropriate index of some suffix.
+    // Example of search
+    // suffix          target
+    // "o"       >     "i"
+    // "o"       <     "z"
+    // "o"       =     "o"
+    // "o"       <     "oo"
+    // "Ho"      >     "Hi"
+    // "Ho"      <     "Hz"
+    // "Ho"      =     "Ho"
+    // "Ho"      <     "Ho "   : "Ho " is not in the head of suffix "Ho"
+    // "Ho"      =     "H"     : "H" is in the head of suffix "Ho"
+    //
+    // ここに比較のコードを書け
+    //
 
-		int suffix_i = suffixArray[i];
-		int target_length = k-j;
+    int suffix_i = suffixArray[i];
+    int target_length = k-j;
 
-		while(mySpace[suffix_i] == myTarget[j]) {
-			suffix_i++;
-			j++;
-			if(mySpace.length <= suffix_i || k <= j) {
-				if(mySpace.length - suffixArray[i] < target_length) {
-					return -1;
-				} else {
-					return 0;
-				}
-			}
-		}
-		if(mySpace[suffix_i] > myTarget[j]) {
-			return 1;
-		} else {
-			return -1;
-		}
-		// return 0; // この行は変更しなければならない。
-	}
+    while(mySpace[suffix_i] == myTarget[j]) {
+      suffix_i++;
+      j++;
+      if(mySpace.length <= suffix_i || k <= j) {
+        if(mySpace.length - suffixArray[i] < target_length) {
+          return -1;
+        } else {
+          return 0;
+        }
+      }
+    }
+    if(mySpace[suffix_i] > myTarget[j]) {
+      return 1;
+    } else {
+      return -1;
+    }
+    // return 0; // この行は変更しなければならない。
+  }
 
 
-	private int subByteStartIndex(int start, int end) {
-		//suffix arrayのなかで、目的の文字列の出現が始まる位置を求めるメソッド
-		// 以下のように定義せよ。
+  private int subByteStartIndex(int start, int end) {
+    //suffix arrayのなかで、目的の文字列の出現が始まる位置を求めるメソッド
+    // 以下のように定義せよ。
         /* Example of suffix created from "Hi Ho Hi Ho"
            0: Hi Ho
            1: Ho
@@ -210,31 +246,30 @@ public class Frequencer implements FrequencerInterface{
            A:o Hi Ho
         */
 
-		// It returns the index of the first suffix
-		// which is equal or greater than target_start_end.
-		// Assuming the suffix array is created from "Hi Ho Hi Ho",
-		// if target_start_end is "Ho", it will return 5.
-		// Assuming the suffix array is created from "Hi Ho Hi Ho",
-		// if target_start_end is "Ho ", it will return 6.
-		//
-		// ここにコードを記述せよ。
-		//
+    // It returns the index of the first suffix
+    // which is equal or greater than target_start_end.
+    // Assuming the suffix array is created from "Hi Ho Hi Ho",
+    // if target_start_end is "Ho", it will return 5.
+    // Assuming the suffix array is created from "Hi Ho Hi Ho",
+    // if target_start_end is "Ho ", it will return 6.
+    //
+    // ここにコードを記述せよ。
+    //
 
-		int count = -1;
-		for(int i = 0; i < suffixArray.length; i++){
-			//int suffix_i = suffixArray[i];
-			if(targetCompare(i, start, end) == 0){
-				count = i;
-				break;
-			}
-		}
-		return count;
-		//return suffixArray.length; //このコードは変更しなければならない。
-	}
+    int count = 0;
+    for(int i = 0; i < suffixArray.length; i++){
+      if(targetCompare(i, start, end) == 0){
+        count = i;
+        break;
+      }
+    }
+    return count;
+    //return suffixArray.length; //このコードは変更しなければならない。
+  }
 
-	private int subByteEndIndex(int start, int end) {
-		//suffix arrayのなかで、目的の文字列の出現しなくなる場所を求めるメソッド
-		// 以下のように定義せよ。
+  private int subByteEndIndex(int start, int end) {
+    //suffix arrayのなかで、目的の文字列の出現しなくなる場所を求めるメソッド
+    // 以下のように定義せよ。
         /* Example of suffix created from "Hi Ho Hi Ho"
            0: Hi Ho
            1: Ho
@@ -248,44 +283,44 @@ public class Frequencer implements FrequencerInterface{
            9:o
            A:o Hi Ho
         */
-		// It returns the index of the first suffix
-		// which is greater than target_start_end; (and not equal to target_start_end)
-		// Assuming the suffix array is created from "Hi Ho Hi Ho",
-		// if target_start_end is "Ho", it will return 7 for "Hi Ho Hi Ho".
-		// Assuming the suffix array is created from "Hi Ho Hi Ho",
-		// if target_start_end is"i", it will return 9 for "Hi Ho Hi Ho".
-		//
-		//　ここにコードを記述せよ
-		//
+    // It returns the index of the first suffix
+    // which is greater than target_start_end; (and not equal to target_start_end)
+    // Assuming the suffix array is created from "Hi Ho Hi Ho",
+    // if target_start_end is "Ho", it will return 7 for "Hi Ho Hi Ho".
+    // Assuming the suffix array is created from "Hi Ho Hi Ho",
+    // if target_start_end is"i", it will return 9 for "Hi Ho Hi Ho".
+    //
+    //　ここにコードを記述せよ
+    //
 
-		int count = 0;
-		for(int i = subByteStartIndex(start, end); i < suffixArray.length; i++) {
-			//int suffix_i = suffixArray[i];
-			if(targetCompare(i, start, end) != 0) {
-				count = i;
-				break;
-			}
-		}
-		return count; // この行は変更しなければならない、
-	}
+    int count = suffixArray.length;
+    for(int i = subByteStartIndex(start, end); i < suffixArray.length; i++) {
+      //int suffix_i = suffixArray[i];
+      if(targetCompare(i, start, end) != 0) {
+        count = i;
+        break;
+      }
+    }
+    return count; // この行は変更しなければならない、
+  }
 
 
-	// Suffix Arrayを使ったプログラムのホワイトテストは、
-	// privateなメソッドとフィールドをアクセスすることが必要なので、
-	// クラスに属するstatic mainに書く方法もある。
-	// static mainがあっても、呼びださなければよい。
-	// 以下は、自由に変更して実験すること。
-	// 注意：標準出力、エラー出力にメッセージを出すことは、
-	// static mainからの実行のときだけに許される。
-	// 外部からFrequencerを使うときにメッセージを出力してはならない。
-	// 教員のテスト実行のときにメッセージがでると、仕様にない動作をするとみなし、
-	// 減点の対象である。
-	public static void main(String[] args) {
-		Frequencer frequencerObject;
-		try {
-			frequencerObject = new Frequencer();
-			frequencerObject.setSpace("Hi Ho Hi Ho".getBytes());
-			frequencerObject.printSuffixArray(); // you may use this line for DEBUG
+  // Suffix Arrayを使ったプログラムのホワイトテストは、
+  // privateなメソッドとフィールドをアクセスすることが必要なので、
+  // クラスに属するstatic mainに書く方法もある。
+  // static mainがあっても、呼びださなければよい。
+  // 以下は、自由に変更して実験すること。
+  // 注意：標準出力、エラー出力にメッセージを出すことは、
+  // static mainからの実行のときだけに許される。
+  // 外部からFrequencerを使うときにメッセージを出力してはならない。
+  // 教員のテスト実行のときにメッセージがでると、仕様にない動作をするとみなし、
+  // 減点の対象である。
+  public static void main(String[] args) {
+    Frequencer frequencerObject;
+    try {
+      frequencerObject = new Frequencer();
+      frequencerObject.setSpace("Hi Ho Hi Ho".getBytes());
+      frequencerObject.printSuffixArray(); // you may use this line for DEBUG
             /* Example from "Hi Ho Hi Ho"
                0: Hi Ho
                1: Ho
@@ -300,28 +335,28 @@ public class Frequencer implements FrequencerInterface{
                A:o Hi Ho
             */
 
-            frequencerObject.setTarget("i".getBytes());
-            System.out.println("o > i : " + frequencerObject.targetCompare(9, 0, 1));
-			frequencerObject.setTarget("H".getBytes());
-			System.out.println(" Hi Ho = H : " + frequencerObject.targetCompare(0, 0, 1));
-			frequencerObject.setTarget("oo".getBytes());
-			System.out.println("o > oo : " + frequencerObject.targetCompare(9, 0, 2));
+      frequencerObject.setTarget("i".getBytes());
+      System.out.println("o > i : " + frequencerObject.targetCompare(9, 0, 1));
+      frequencerObject.setTarget("H".getBytes());
+      System.out.println(" Hi Ho = H : " + frequencerObject.targetCompare(0, 0, 1));
+      frequencerObject.setTarget("oo".getBytes());
+      System.out.println("o > oo : " + frequencerObject.targetCompare(9, 0, 2));
 
 
-			frequencerObject.setTarget("H".getBytes());
+      frequencerObject.setTarget("H".getBytes());
 
-			System.out.println(frequencerObject.subByteStartIndex(0, 1));
-			System.out.println(frequencerObject.subByteEndIndex(0, 1));
-			//
-			// ****  Please write code to check subByteStartIndex, and subByteEndIndex
-			//
+      System.out.println(frequencerObject.subByteStartIndex(0, 1));
+      System.out.println(frequencerObject.subByteEndIndex(0, 1));
+      //
+      // ****  Please write code to check subByteStartIndex, and subByteEndIndex
+      //
 
-			int result = frequencerObject.frequency();
-			System.out.print("Freq = "+ result+" ");
-			if(4 == result) { System.out.println("OK"); } else {System.out.println("WRONG"); }
-		}
-		catch(Exception e) {
-			System.out.println("STOP");
-		}
-	}
+      int result = frequencerObject.frequency();
+      System.out.print("Freq = "+ result+" ");
+      if(4 == result) { System.out.println("OK"); } else {System.out.println("WRONG"); }
+    }
+    catch(Exception e) {
+      System.out.println("STOP");
+    }
+  }
 }

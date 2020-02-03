@@ -42,6 +42,7 @@ public class InformationEstimator implements InformationEstimatorInterface {
 
   public void setTarget(byte[] target) {
     myTarget = target;
+    // fill dict with -1 that indicates "empty"
     dict = new double[myTarget.length+1];
     Arrays.fill(dict, -1);
   }

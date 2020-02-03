@@ -63,12 +63,15 @@ public class Frequencer implements FrequencerInterface{
     // if suffix_i = suffix_j, it returns 0;
 
     // ここにコードを記述せよ
-    //
+
     int index_i = suffixArray[i];
     int index_j = suffixArray[j];
+
+    // 同じ文字なら次に進んでいく
     while (mySpace[index_i] == mySpace[index_j]) {
       index_i++;
       index_j++;
+      // 最後の一文字
       if (mySpace.length <= index_i || mySpace.length <= index_j) {
         if (suffixArray[i] < suffixArray[j]) {
           return 1;
@@ -79,6 +82,7 @@ public class Frequencer implements FrequencerInterface{
         }
       }
     }
+    // 同じ文字ではなくなった場合
     if (mySpace[index_i] > mySpace[index_j]) {
       return 1;
     } else {
@@ -101,6 +105,7 @@ public class Frequencer implements FrequencerInterface{
     // 　順番はsuffixCompareで定義されるものとする。
 
 
+    // suffix arrayをbubblesort
     for (int i = 0; i < suffixArray.length; i++) {
       for (int j = suffixArray.length - 1; j > i; j--) {
         if (suffixCompare(i, j) == 1) {
@@ -209,10 +214,13 @@ public class Frequencer implements FrequencerInterface{
     int suffix_i = suffixArray[i];
     int target_length = k-j;
 
+    // spaceとtargetが同じときは進んでいく
     while(mySpace[suffix_i] == myTarget[j]) {
       suffix_i++;
       j++;
+      // 最後まで到達した
       if(mySpace.length <= suffix_i || k <= j) {
+        // targetの方が大きい場合、そうでない場合
         if(mySpace.length - suffixArray[i] < target_length) {
           return -1;
         } else {
@@ -256,6 +264,7 @@ public class Frequencer implements FrequencerInterface{
     // ここにコードを記述せよ。
     //
 
+    // 最初から数えていき一致したらcountに記録
     int count = 0;
     for(int i = 0; i < suffixArray.length; i++){
       if(targetCompare(i, start, end) == 0){

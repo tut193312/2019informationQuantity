@@ -1,8 +1,8 @@
 all:
-	javac Hello.java -classpath "../.." -encoding UTF-8
-	javac Frequencer.java -classpath "../.." -encoding UTF-8
-	javac InformationEstimator.java -classpath "../.." -encoding UTF-8
-	javac TestCase.java -classpath "../.." -encoding UTF-8
+	javac Hello.java -classpath "../.."
+	javac Frequencer.java -classpath "../.."
+	javac InformationEstimator.java -classpath "../.."
+	javac TestCase.java -classpath "../.."
 run:
 #	java -classpath "../.." s4.B193312/Hello
 #	java -classpath "../.." s4.B193312/Frequencer

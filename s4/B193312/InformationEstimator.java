@@ -43,8 +43,7 @@ public class InformationEstimator implements InformationEstimatorInterface {
   public void setTarget(byte[] target) {
     myTarget = target;
     // fill dict with -1 that indicates "empty"
-    dict = new double[myTarget.length+1];
-    Arrays.fill(dict, -1);
+    dict = new double[myTarget.length];
   }
 
   public void setSpace(byte[] space) {
@@ -60,52 +59,63 @@ public class InformationEstimator implements InformationEstimatorInterface {
     // System.out.println("np="+np+" length="+myTarget.length);
     double value = Double.MAX_VALUE; // value = mininimum of each "value1".
 
-    for (int p = 0; p < np; p++) { // There are 2^(n-1) kinds of partitions.
-      // binary representation of p forms partition.
-      // for partition {"ab" "cde" "fg"}
-      // a b c d e f g : myTarget
-      // T F T F F T F T : partition:
-      partition[0] = true; // I know that this is not needed, but..
-      for (int i = 0; i < myTarget.length - 1; i++) {
-        partition[i + 1] = (0 != ((1 << i) & p));
+    // for (int p = 0; p < np; p++) { // There are 2^(n-1) kinds of partitions.
+    //   // binary representation of p forms partition.
+    //   // for partition {"ab" "cde" "fg"}
+    //   // a b c d e f g : myTarget
+    //   // T F T F F T F T : partition:
+    //   partition[0] = true; // I know that this is not needed, but..
+    //   for (int i = 0; i < myTarget.length - 1; i++) {
+    //     partition[i + 1] = (0 != ((1 << i) & p));
+    //   }
+    //   partition[myTarget.length] = true;
+
+    //   // Compute Information Quantity for the partition, in "value1"
+    //   // value1 = IQ(#"ab")+IQ(#"cde")+IQ(#"fg") for the above example
+    //   double value1 = (double) 0.0;
+    //   int end = 0;
+    //   int start = end;
+    //   while (start < myTarget.length) {
+    //     // System.out.write(myTarget[end]);
+    //     end++;
+    //     while (partition[end] == false) {
+    //       // System.out.write(myTarget[end]);
+    //       end++;
+    //     }
+
+    //     if (start == 0 && dict[end] != -1) {
+    //       value1 = dict[end];
+    //     } else {
+    //       myFrequencer.setTarget(subBytes(myTarget, start, end));
+    //       double tmp = iq(myFrequencer.frequency());
+    //       value1 = value1 + tmp;
+    //       if (start == 0 && dict[end] == -1) {
+    //         dict[end] = tmp;
+    //       }
+    //     }
+    //     // System.out.print("("+start+","+end+")");
+    //     // myFrequencer.setTarget(subBytes(myTarget, start, end));
+    //     // value1 = value1 + iq(myFrequencer.frequency());
+    //     start = end;
+    //   }
+    //   // System.out.println(" "+ value1);
+
+    //   // Get the minimal value in "value"
+    //   if (value1 < value)
+    //     value = value1;
+    // }
+    // return value;
+
+    for (int i = 0; i < myTarget.length; i++) {
+      for (int j = 0; j <= i; j++) {
+        int start = j, end = i+1;
+        myFrequencer.setTarget(subBytes(myTarget, start, end));
+        value = iq(myFrequencer.frequency());
+        dict[i] = (j == 0) ? value : Math.min(dict[i], dict[j-1] + value);
       }
-      partition[myTarget.length] = true;
-
-      // Compute Information Quantity for the partition, in "value1"
-      // value1 = IQ(#"ab")+IQ(#"cde")+IQ(#"fg") for the above example
-      double value1 = (double) 0.0;
-      int end = 0;
-      int start = end;
-      while (start < myTarget.length) {
-        // System.out.write(myTarget[end]);
-        end++;
-        while (partition[end] == false) {
-          // System.out.write(myTarget[end]);
-          end++;
-        }
-
-        if (start == 0 && dict[end] != -1) {
-          value1 = dict[end];
-        } else {
-          myFrequencer.setTarget(subBytes(myTarget, start, end));
-          double tmp = iq(myFrequencer.frequency());
-          value1 = value1 + tmp;
-          if (start == 0 && dict[end] == -1) {
-            dict[end] = tmp;
-          }
-        }
-        // System.out.print("("+start+","+end+")");
-        // myFrequencer.setTarget(subBytes(myTarget, start, end));
-        // value1 = value1 + iq(myFrequencer.frequency());
-        start = end;
-      }
-      // System.out.println(" "+ value1);
-
-      // Get the minimal value in "value"
-      if (value1 < value)
-        value = value1;
     }
-    return value;
+    return dict[myTarget.length - 1];
+
     /* correct output */
     // java -classpath "../.." s4.B193312/InformationEstimator
     // >0 2.0
